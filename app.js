@@ -35,6 +35,8 @@ async function loadReferrers() {
   try {
     const response = await fetch(GAS_WEB_APP_URL);
     const names = await response.json();
+
+    console.log("GASからのレスポンス:", names);
     
     selectElement.innerHTML = '<option value="">選択してください (任意)</option>';
     
