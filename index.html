@@ -47,3 +47,46 @@
 
     <div class="form-group">
       <label>せい (ひらがな)<span class="required">*</span></label>
+      <input type="text" name="lastNameHira" pattern="[\u3041-\u3096]*" placeholder="やまだ" required>
+    </div>
+    <div class="form-group">
+      <label>めい (ひらがな)<span class="required">*</span></label>
+      <input type="text" name="firstNameHira" pattern="[\u3041-\u3096]*" placeholder="たろう" required>
+    </div>
+    
+    <div class="form-group">
+      <label>性別<span class="required">*</span></label>
+      <div class="radio-group">
+        <label><input type="radio" name="gender" value="男性" required> 男性</label>
+        <label><input type="radio" name="gender" value="女性" required> 女性</label>
+        <label><input type="radio" name="gender" value="その他" required> その他</label>
+      </div>
+    </div>
+
+    <div class="form-group">
+      <label>紹介者</label>
+      <select name="referrer" id="referrerSelect">
+        <option value="">読み込み中...</option>
+      </select>
+    </div>
+
+    <div class="form-group">
+      <label>所属<span class="required">*</span></label>
+      <select name="department" required>
+        <option value="">選択してください</option>
+        <option value="アポインター">アポインター</option>
+        <option value="バックヤード">バックヤード</option>
+      </select>
+    </div>
+
+    <div class="form-group">
+      <label>メールアドレス<span class="required">*</span></label>
+      <input type="email" name="email" required>
+    </div>
+
+    <button type="submit" id="submitBtn" disabled>データを読み込み中...</button>
+  </form>
+
+  <script src="app.js"></script>
+</body>
+</html>
