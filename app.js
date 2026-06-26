@@ -1,8 +1,8 @@
 // ==========================================
 // 設定情報（ご自身の環境に合わせて変更してください）
 // ==========================================
-const LIFF_ID = "YOUR_LIFF_ID"; 
-const GAS_WEB_APP_URL = "YOUR_GAS_WEB_APP_URL"; 
+const LIFF_ID = "2009827198-xpSRx2mI"; 
+const GAS_WEB_APP_URL = "https://script.google.com/macros/s/AKfycbxvQVuHD9_jTq1FqfhvL627OvG9Olf42X2lGoE5S_4VO--sfKw5Xo7nbyDcgddelLbwIA/exec"; 
 
 // ==========================================
 // 初期化処理
