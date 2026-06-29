@@ -3,75 +3,60 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>登録フォーム</title>
-  <style>
-    body { font-family: sans-serif; padding: 20px; background-color: #f5f5f5; }
-    form { background: #fff; padding: 20px; border-radius: 8px; box-shadow: 0 2px 4px rgba(0,0,0,0.1); }
-    .form-group { margin-bottom: 20px; }
-    label { display: block; margin-bottom: 5px; font-weight: bold; }
-    .required { color: red; font-size: 0.9em; margin-left: 5px; }
-    input[type="text"], input[type="email"], select {
-      width: 100%; padding: 10px; box-sizing: border-box; border: 1px solid #ccc; border-radius: 4px;
-    }
-    .radio-group { display: flex; gap: 15px; margin-top: 5px; }
-    button { 
-      padding: 12px 20px; background-color: #06C755; color: white; border: none; 
-      border-radius: 5px; width: 100%; font-size: 16px; font-weight: bold; cursor: pointer;
-    }
-    button:disabled { background-color: #ccc; cursor: not-allowed; }
-  </style>
-  <script charset="utf-8" src="https://static.line-scdn.net/liff/edge/2/sdk.js"></script>
+  <title>ユーザー登録フォーム</title>
+  
+  <link rel="stylesheet" href="style.css">
+  
+  <script src="https://static.line-scdn.net/liff/edge/2/sdk.js"></script>
 </head>
 <body>
 
+  <h2>ユーザー登録</h2>
+
   <form id="registrationForm">
-    <h3>基本情報登録</h3>
-    
     <div class="form-group">
-      <label>姓<span class="required">*</span></label>
-      <input type="text" name="lastName" required>
-    </div>
-    <div class="form-group">
-      <label>名<span class="required">*</span></label>
-      <input type="text" name="firstName" required>
-    </div>
-    
-    <div class="form-group">
-      <label>セイ (カタカナ)<span class="required">*</span></label>
-      <input type="text" name="lastNameKana" pattern="[\u30A1-\u30F6]*" placeholder="ヤマダ" required>
-    </div>
-    <div class="form-group">
-      <label>メイ (カタカナ)<span class="required">*</span></label>
-      <input type="text" name="firstNameKana" pattern="[\u30A1-\u30F6]*" placeholder="タロウ" required>
+      <label class="required">姓</label>
+      <input type="text" name="lastName" placeholder="例: 山田" required>
+      
+      <label class="required" style="margin-top: 10px;">名</label>
+      <input type="text" name="firstName" placeholder="例: 太郎" required>
     </div>
 
     <div class="form-group">
-      <label>せい (ひらがな)<span class="required">*</span></label>
-      <input type="text" name="lastNameHira" pattern="[\u3041-\u3096]*" placeholder="やまだ" required>
+      <label class="required">セイ</label>
+      <input type="text" name="lastNameKana" placeholder="例: ヤマダ" required>
+      
+      <label class="required" style="margin-top: 10px;">メイ</label>
+      <input type="text" name="firstNameKana" placeholder="例: タロウ" required>
     </div>
+
     <div class="form-group">
-      <label>めい (ひらがな)<span class="required">*</span></label>
-      <input type="text" name="firstNameHira" pattern="[\u3041-\u3096]*" placeholder="たろう" required>
+      <label class="required">せい</label>
+      <input type="text" name="lastNameHira" placeholder="例: やまだ" required>
+      
+      <label class="required" style="margin-top: 10px;">めい</label>
+      <input type="text" name="firstNameHira" placeholder="例: たろう" required>
     </div>
-    
+
     <div class="form-group">
-      <label>性別<span class="required">*</span></label>
+      <label class="required">性別</label>
       <div class="radio-group">
         <label><input type="radio" name="gender" value="男性" required> 男性</label>
-        <label><input type="radio" name="gender" value="女性" required> 女性</label>
-        <label><input type="radio" name="gender" value="その他" required> その他</label>
+        <label><input type="radio" name="gender" value="女性"> 女性</label>
+        <label><input type="radio" name="gender" value="その他"> その他</label>
       </div>
     </div>
 
     <div class="form-group">
       <label>紹介者</label>
-      <select name="referrer" id="referrerSelect">
-        <option value="">読み込み中...</option>
+      <select id="referrer" name="referrer">
+        <option value="">選択してください</option>
       </select>
+      <div id="referrerLoading" class="loading">従業員名簿を読み込み中...</div>
     </div>
 
     <div class="form-group">
-      <label>所属<span class="required">*</span></label>
+      <label class="required">所属</label>
       <select name="department" required>
         <option value="">選択してください</option>
         <option value="アポインター">アポインター</option>
@@ -80,13 +65,13 @@
     </div>
 
     <div class="form-group">
-      <label>メールアドレス<span class="required">*</span></label>
-      <input type="email" name="email" required>
+      <label class="required">メールアドレス</label>
+      <input type="email" name="email" placeholder="例: sample@example.com" required>
     </div>
 
-    <button type="submit" id="submitBtn" disabled>データを読み込み中...</button>
+    <button type="submit">登録する</button>
   </form>
 
-  <script src="app.js"></script>
+  <script src="app.js" defer></script>
 </body>
 </html>

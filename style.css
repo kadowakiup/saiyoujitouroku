@@ -1,0 +1,72 @@
+/* ベーススタイル */
+body {
+  font-family: sans-serif;
+  padding: 20px;
+  background-color: #f8f9fa;
+  color: #333;
+}
+
+h2 {
+  text-align: center;
+}
+
+/* フォーム要素のグループ化と装飾 */
+.form-group {
+  margin-bottom: 20px;
+  background: #fff;
+  padding: 15px;
+  border-radius: 8px;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+}
+
+label {
+  display: block;
+  margin-bottom: 8px;
+  font-weight: bold;
+}
+
+/* 必須マークの自動付与 */
+.required::after {
+  content: " *";
+  color: red;
+}
+
+/* 入力フィールドのスタイル */
+input[type="text"],
+input[type="email"],
+select {
+  width: 100%;
+  padding: 10px;
+  box-sizing: border-box;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  font-size: 16px; /* スマホでの自動ズーム防止 */
+}
+
+/* ラジオボタンのレイアウト */
+.radio-group label {
+  display: inline-block;
+  font-weight: normal;
+  margin-right: 15px;
+}
+
+/* 送信ボタン */
+button {
+  width: 100%;
+  padding: 15px;
+  background-color: #06C755; /* LINEグリーン */
+  color: white;
+  border: none;
+  border-radius: 5px;
+  font-size: 16px;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+/* ローディングテキスト */
+.loading {
+  display: none;
+  color: #888;
+  font-size: 12px;
+  margin-top: 5px;
+}
