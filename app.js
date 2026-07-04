@@ -49,7 +49,6 @@ async function fetchEmployees() {
   const referrerSelect = document.getElementById('referrer');
   const loadingText = document.getElementById('referrerLoading');
   
-  // ローディング表示をオン
   loadingText.style.display = 'block'; 
 
   try {
@@ -64,13 +63,20 @@ async function fetchEmployees() {
         option.textContent = name;
         referrerSelect.appendChild(option);
       });
+
+      // ★追加：ここで標準のプルダウンを「検索可能なプルダウン」に変換する
+      new TomSelect("#referrer", {
+        create: false, // 新規作成は許可しない
+        placeholder: "名前を検索して選択...",
+        maxOptions: null // 全件表示する設定
+      });
+
     } else {
       console.error("従業員データの取得に失敗しました", result.error);
     }
   } catch (error) {
     console.error("通信エラー:", error);
   } finally {
-    // 成功・失敗に関わらずローディング表示をオフ
     loadingText.style.display = 'none'; 
   }
 }
