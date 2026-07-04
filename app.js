@@ -53,15 +53,29 @@ async function fetchEmployees() {
 
 async function handleFormSubmit(event) {
   event.preventDefault();
+  
   const submitBtn = event.target.querySelector('button[type="submit"]');
   submitBtn.disabled = true;
   submitBtn.textContent = "送信中...";
 
+  // 1. LINE IDを取得（liff.getProfile()をawaitしてIDを取得する）
+  let lineId = "不明";
+  try {
+    const profile = await liff.getProfile();
+    lineId = profile.userId;
+  } catch (err) {
+    console.error("LINE IDの取得に失敗しました", err);
+  }
+
+  // 2. フォームデータを取得
   const formData = new FormData(event.target);
   const params = new URLSearchParams();
   for (const [key, value] of formData.entries()) {
     params.append(key, value);
   }
+  
+  // 3. 取得したLINE IDを送信データに追加
+  params.append("lineId", lineId);
 
   try {
     const response = await fetch(GAS_WEBAPP_URL, {
@@ -71,15 +85,17 @@ async function handleFormSubmit(event) {
     });
 
     const result = await response.json();
+
     if (result.success) {
       alert("登録が完了しました！");
       liff.closeWindow();
     } else {
-      alert("エラー: " + result.error);
+      alert("エラーが発生しました: " + result.error);
       submitBtn.disabled = false;
       submitBtn.textContent = "登録する";
     }
   } catch (error) {
+    console.error("通信エラー:", error);
     alert("通信エラーが発生しました。");
     submitBtn.disabled = false;
     submitBtn.textContent = "登録する";
