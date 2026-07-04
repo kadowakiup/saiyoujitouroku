@@ -84,18 +84,42 @@ async function fetchEmployees() {
 /**
  * フォームが送信されたときの処理
  */
-function handleFormSubmit(event) {
+async function handleFormSubmit(event) {
   event.preventDefault(); // 画面の遷移・リロードを防止
+  
+  // 送信中のボタン無効化（連打防止）
+  const submitBtn = event.target.querySelector('button[type="submit"]');
+  submitBtn.disabled = true;
+  submitBtn.textContent = "送信中...";
 
   // フォームの入力データをオブジェクトに変換
   const formData = new FormData(event.target);
   const data = Object.fromEntries(formData.entries());
 
-  console.log("送信データ:", data);
-  
-  // TODO: ここにGAS（doPost）へデータを送信するfetch処理を記述します。
-  // 送信が完了したら以下のコードでLIFFを閉じるとスムーズです。
-  // liff.closeWindow();
-  
-  alert("コンソールに送信データを表示しました。実際の送信処理を実装してください。");
+  try {
+    // GASへPOSTリクエストを送信
+    const response = await fetch(GAS_WEBAPP_URL, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify(data)
+    });
+
+    const result = await response.json();
+
+    if (result.success) {
+      alert("登録が完了しました！");
+      liff.closeWindow(); // 成功したら画面を閉じる
+    } else {
+      alert("エラーが発生しました: " + result.error);
+      submitBtn.disabled = false;
+      submitBtn.textContent = "登録する";
+    }
+  } catch (error) {
+    console.error("通信エラー:", error);
+    alert("通信エラーが発生しました。");
+    submitBtn.disabled = false;
+    submitBtn.textContent = "登録する";
+  }
 }
