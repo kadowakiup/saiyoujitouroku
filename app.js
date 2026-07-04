@@ -85,32 +85,34 @@ async function fetchEmployees() {
  * フォームが送信されたときの処理
  */
 async function handleFormSubmit(event) {
-  event.preventDefault(); // 画面の遷移・リロードを防止
+  event.preventDefault(); 
   
-  // 送信中のボタン無効化（連打防止）
   const submitBtn = event.target.querySelector('button[type="submit"]');
   submitBtn.disabled = true;
   submitBtn.textContent = "送信中...";
 
-  // フォームの入力データをオブジェクトに変換
   const formData = new FormData(event.target);
-  const data = Object.fromEntries(formData.entries());
+  
+  // URLSearchParams を使うことで「シンプルリクエスト」として送る
+  const params = new URLSearchParams();
+  for (const [key, value] of formData.entries()) {
+    params.append(key, value);
+  }
 
   try {
-    // GASへPOSTリクエストを送信
     const response = await fetch(GAS_WEBAPP_URL, {
       method: "POST",
       headers: {
-        "Content-Type": "application/json"
+        "Content-Type": "application/x-www-form-urlencoded" // これが重要
       },
-      body: JSON.stringify(data)
+      body: params
     });
 
     const result = await response.json();
 
     if (result.success) {
       alert("登録が完了しました！");
-      liff.closeWindow(); // 成功したら画面を閉じる
+      liff.closeWindow();
     } else {
       alert("エラーが発生しました: " + result.error);
       submitBtn.disabled = false;
