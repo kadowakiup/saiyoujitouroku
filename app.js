@@ -58,7 +58,7 @@ async function handleFormSubmit(event) {
   submitBtn.disabled = true;
   submitBtn.textContent = "送信中...";
 
-  // 1. LINE IDを取得（liff.getProfile()をawaitしてIDを取得する）
+  // 1. LINE IDを取得（エラーになっても進めるようにする）
   let lineId = "不明";
   try {
     const profile = await liff.getProfile();
@@ -67,14 +67,12 @@ async function handleFormSubmit(event) {
     console.error("LINE IDの取得に失敗しました", err);
   }
 
-  // 2. フォームデータを取得
+  // 2. フォームデータを取得し、LINE IDを追加
   const formData = new FormData(event.target);
   const params = new URLSearchParams();
   for (const [key, value] of formData.entries()) {
     params.append(key, value);
   }
-  
-  // 3. 取得したLINE IDを送信データに追加
   params.append("lineId", lineId);
 
   try {
@@ -87,8 +85,25 @@ async function handleFormSubmit(event) {
     const result = await response.json();
 
     if (result.success) {
-      alert("登録が完了しました！");
-      liff.closeWindow();
+      // 3. Anycrossからのレスポンスを確認
+      const anycross = result.anycrossResponse || {};
+      const status = anycross.status;
+
+      if (status === 300 || status === 330 || status === 333) {
+        // 重複エラーの場合: 推奨名を取得してアラート
+        let suggestedName = anycross.name || 
+                           (anycross.body && anycross.body.name) || 
+                           (anycross.body && Array.isArray(anycross.body) && anycross.body[0] && anycross.body[0].name) || 
+                           "不明";
+        
+        alert(`名前が重複したので、以下の名前を使用してください。\n（${suggestedName}）`);
+        submitBtn.disabled = false;
+        submitBtn.textContent = "登録する";
+      } else {
+        // 正常完了
+        alert("登録が完了しました！");
+        liff.closeWindow();
+      }
     } else {
       alert("エラーが発生しました: " + result.error);
       submitBtn.disabled = false;
