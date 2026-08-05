@@ -82,6 +82,14 @@ async function handleFormSubmit(event) {
       const statusCode = result.anycrossStatus; 
       const anycross = result.anycrossResponse || {};
 
+      // ★デバッグ用：F12（開発者ツール）のコンソールで、実際に何が返ってきているか確認できます
+      console.log("GASが受け取ったHTTPステータス:", statusCode);
+      console.log("Anycrossからのレスポンス中身:", anycross);
+
+      // ★追加: Anycrossのレスポンスボディの中に 400 が含まれているかチェック
+      // （Anycross側でどのようなキー名で返しているかによって "status" の部分は調整してください）
+      const bodyStatus = anycross.status || anycross.statusCode || anycross.code;
+
       if (statusCode === 300 || statusCode === 330 || statusCode === 333) {
         
         // 画像の構造 {"name": {"名前": "大田 花音③"}} から確実に取り出す
