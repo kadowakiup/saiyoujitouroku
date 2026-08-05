@@ -49,12 +49,27 @@ async function fetchEmployees() {
   }
 }
 
+// =========================================
+// ★追加：ローディング画面を制御する関数
+// =========================================
+function showLoading() {
+  document.getElementById('loadingOverlay').style.display = 'flex'; 
+}
+
+function hideLoading() {
+  document.getElementById('loadingOverlay').style.display = 'none';
+}
+// =========================================
+
 async function handleFormSubmit(event) {
   event.preventDefault(); 
   
   const submitBtn = event.target.querySelector('button[type="submit"]');
   submitBtn.disabled = true;
   submitBtn.textContent = "送信中...";
+
+  // ★ここでローディング画面を表示！
+  showLoading();
 
   let lineId = "不明";
   try {
@@ -81,18 +96,10 @@ async function handleFormSubmit(event) {
     if (result.success) {
       const statusCode = result.anycrossStatus; 
       const anycross = result.anycrossResponse || {};
-
-      // ★デバッグ用：F12（開発者ツール）のコンソールで、実際に何が返ってきているか確認できます
-      console.log("GASが受け取ったHTTPステータス:", statusCode);
-      console.log("Anycrossからのレスポンス中身:", anycross);
-
-      // ★追加: Anycrossのレスポンスボディの中に 400 が含まれているかチェック
-      // （Anycross側でどのようなキー名で返しているかによって "status" の部分は調整してください）
       const bodyStatus = anycross.status || anycross.statusCode || anycross.code;
 
       if (statusCode === 300 || statusCode === 330 || statusCode === 333) {
         
-        // 画像の構造 {"name": {"名前": "大田 花音③"}} から確実に取り出す
         let suggestedName = "不明";
         if (anycross.name && typeof anycross.name === 'object' && anycross.name["名前"]) {
           suggestedName = anycross.name["名前"];
@@ -100,30 +107,37 @@ async function handleFormSubmit(event) {
           suggestedName = anycross.name;
         }
         
-        // ★ご希望の文言に変更
+        // ★アラートの前にローディングを消す
+        hideLoading();
         alert(`同姓同名の方がすでにいるので、今後は以下の名前を必ずご使用ください\n\n${suggestedName}`);
         
-        // ★修正: 画面は閉じず、ボタンを無効化したまま「登録完了」に変更して再送信を防ぐ
         submitBtn.textContent = "登録完了";
-        // submitBtn.disabled = true; // （すでに送信時に true になっているのでそのままでOK）
 
       } else if (statusCode === 400 || bodyStatus == 400) {
-        // ★追加: 400エラー（登録済み）の場合の処理
+        
+        // ★アラートの前にローディングを消す
+        hideLoading();
         alert("すでに登録されています。修正がある場合は社員へお声がけください。");
         
         submitBtn.disabled = false;
         submitBtn.textContent = "登録する";
 
       } else {
+        // ★アラートの前にローディングを消す
+        hideLoading();
         alert("登録が完了しました！");
         liff.closeWindow(); 
       }
     } else {
+      // ★エラー時もローディングを消す
+      hideLoading();
       alert("エラーが発生しました: " + result.error);
       submitBtn.disabled = false;
       submitBtn.textContent = "登録する";
     }
   } catch (error) {
+    // ★通信エラー時もローディングを消す
+    hideLoading();
     alert("通信エラーが発生しました。");
     submitBtn.disabled = false;
     submitBtn.textContent = "登録する";
