@@ -100,12 +100,14 @@ async function handleFormSubmit(event) {
           suggestedName = anycross.name;
         }
         
-        alert(`名前が重複したので、以下の名前を使用してください。\n（${suggestedName}）`);
+        // ★ご希望の文言に変更
+        alert(`同姓同名の方がすでにいるので、今後は以下の名前を必ずご使用ください\n\n${suggestedName}`);
         
-        submitBtn.disabled = false;
-        submitBtn.textContent = "登録する";
+        // ★修正: 画面は閉じず、ボタンを無効化したまま「登録完了」に変更して再送信を防ぐ
+        submitBtn.textContent = "登録完了";
+        // submitBtn.disabled = true; // （すでに送信時に true になっているのでそのままでOK）
 
-      } else if (statusCode === 400) {
+      } else if (statusCode === 400 || bodyStatus == 400) {
         // ★追加: 400エラー（登録済み）の場合の処理
         alert("すでに登録されています。修正がある場合は社員へお声がけください。");
         
