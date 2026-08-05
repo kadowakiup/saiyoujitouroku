@@ -79,7 +79,6 @@ async function handleFormSubmit(event) {
     const result = await response.json();
 
     if (result.success) {
-      // ★修正: GASから受け取った「HTTPステータスコード」で判定する
       const statusCode = result.anycrossStatus; 
       const anycross = result.anycrossResponse || {};
 
@@ -97,6 +96,14 @@ async function handleFormSubmit(event) {
         
         submitBtn.disabled = false;
         submitBtn.textContent = "登録する";
+
+      } else if (statusCode === 400) {
+        // ★追加: 400エラー（登録済み）の場合の処理
+        alert("すでに登録されています。修正がある場合は社員へお声がけください。");
+        
+        submitBtn.disabled = false;
+        submitBtn.textContent = "登録する";
+
       } else {
         alert("登録が完了しました！");
         liff.closeWindow(); 
