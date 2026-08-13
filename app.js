@@ -1,5 +1,5 @@
 const LIFF_ID = "2009827198-xpSRx2mI"; 
-const GAS_WEBAPP_URL = "https://script.google.com/macros/s/AKfycbxvQVuHD9_jTq1FqfhvL627OvG9Olf42X2lGoE5S_4VO--sfKw5Xo7nbyDcgddelLbwIA/exec"; 
+const GAS_WEBAPP_URL = "https://saiyoji-toroku.kadowaki-universal-prime.workers.dev/"; 
 
 document.addEventListener("DOMContentLoaded", () => {
   initializeLiff();
