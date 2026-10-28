@@ -7,7 +7,7 @@
   
   <link rel="stylesheet" href="style.css">
   
-  <!-- 追加：検索プルダウン用ライブラリ（Tom Select） -->
+  <!-- 検索プルダウン用ライブラリ（Tom Select） -->
   <link href="https://cdn.jsdelivr.net/npm/tom-select@2.2.2/dist/css/tom-select.css" rel="stylesheet">
   <script src="https://cdn.jsdelivr.net/npm/tom-select@2.2.2/dist/js/tom-select.complete.min.js"></script>
 
@@ -15,7 +15,7 @@
 </head>
 <body>
 
-  <!-- 追加：ローディング画面（オーバーレイ） -->
+  <!-- ローディング画面（オーバーレイ） -->
   <div id="loadingOverlay" class="loading-overlay" style="display: none;">
     <div class="loading-content">
       <div class="spinner"></div> 
@@ -56,6 +56,12 @@
         <label><input type="radio" name="gender" value="男性" required> 男性</label>
         <label><input type="radio" name="gender" value="女性"> 女性</label>
       </div>
+    </div>
+
+    <!-- ★追加：生年月日 -->
+    <div class="form-group">
+      <label class="required">生年月日</label>
+      <input type="date" name="birthDate" required>
     </div>
 
     <div class="form-group">
